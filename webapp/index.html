@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            div {
+                font-size: 3.125em;
+            }
+           .center {
+            text-align: center;
+            padding: 5%;
+           } 
+           .left{
+            text-align: left;
+            padding-right: 10%;
+           }
+           .right{
+            text-align: right;
+            padding-left: 10%;
+           }
+           .red{
+            color: red;
+           }
+           .purple{
+            color: purple;
+           }
+        </style>
         <title>Dartboard</title>
     </head>
 
     <body>
-        <h1>Player 1</h1>
-        <h1>Player 2</h1>
+        <center>
+            <div>
+                <span class="left red">
+                    Player 1
+                </span>
+                <span class="right purple">
+                    Player 2
+                </span>
+                <br>
+                <span class="left red">360</span>
+                <span class="right purple">360</span>
+                
+                <form>
+                    <span class="center">
+                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
+                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
+                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
+                    </span>
+
+                    <span class="center">
+                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
+                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
+                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
+                    </span>
+                </form>
+            </div>    
+        </center>
     </body>
 </html>
