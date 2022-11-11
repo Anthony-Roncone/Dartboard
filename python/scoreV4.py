@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 
 root = Tk()
-root.geometry('280x200+700+400')
+root.geometry('285x200+700+400')
 global score1, score2, current
 score1 = score2 = 360
 current = 0
@@ -134,8 +134,10 @@ numbers[5].grid(column=2,row=2)
 numbers[1].place(x=30,y=38)
 numbers[2].place(x=60,y=38)
 
-numbers[4].place(x=225,y=38)
-numbers[5].place(x=255,y=38)
+numbers[4].place(in_=numbers[3], relx=0,x=30, y=-2)
+numbers[5].place(in_=numbers[4], relx=0,x=30, y=-2)
+#numbers[4].place(x=225,y=38)
+#numbers[5].place(x=255,y=38)
 
 #creating and placing buttons to add functionality
 ttk.Button(root, text="Remove points", command = updateScores).grid(pady=5,column=1,row=3)
