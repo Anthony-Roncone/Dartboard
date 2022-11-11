@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 
+#change
+
 root = Tk()
 root.geometry('285x200+700+400')
 global score1, score2, current
