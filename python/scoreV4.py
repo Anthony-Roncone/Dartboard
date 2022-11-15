@@ -1,18 +1,24 @@
 from tkinter import *
 from tkinter import ttk
+#from tkinter.ttk import *
+#import tkinter as tk
+#import ttk
 
 root = Tk()
-root.geometry('285x200+700+400')
-global score1, score2, current
-score1 = score2 = 360
+#root.geometry('285x200+700+400')
+root.attributes('-fullscreen',True)
+root.config(bg='#808080')
+global score1, score2, current, total
+total = 501
+score1 = score2 = total
 current = 0
 
 num_vars = [StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar()]
 
 #reset both players scores to 360
 def resetScore():
-    global score1, score2
-    score1 = score2 = 360
+    global score1, score2, total
+    score1 = score2 = total
     scoreLabel1.config(text=score1)
     scoreLabel2.config(text=score2)
 
@@ -101,25 +107,105 @@ def char_limit(text):
     if len(text.get()) > 2:
         text.delete(2,END)
 
-#frm = ttk.Frame(root, padding=50)
-#frm.grid()
-#frm.place()
-ttk.Label(root, text="Player 1").grid(padx=15,column=0,row=0)
-ttk.Label(root, text="Player 2").grid(padx=15,column=2,row=0)
+def clearInputf(event):
+    global current
+    #print(event.keysym)
+    if event.keysym == 'F1':
+        numbers[0].delete(0,END)
+        numbers[0].insert(0,0)
+        current = 1
+        #return
+    elif event.keysym == 'F2':
+        numbers[1].delete(0,END)
+        numbers[1].insert(0,0)
+        current = 2
+        #return
+    elif event.keysym == 'F3':
+        numbers[2].delete(0,END)
+        numbers[2].insert(0,0)
+        current = 3
+        #return
+    elif event.keysym == 'F4':
+        numbers[3].delete(0,END)
+        numbers[3].insert(0,0)
+        current = 4
+        #return
+    elif event.keysym == 'F5':
+        numbers[4].delete(0,END)
+        numbers[4].insert(0,0)
+        current = 5
+        #return
+    elif event.keysym == 'F6':
+        numbers[5].delete(0,END)
+        numbers[5].insert(0,0)
+        current = 0
+        #return
+    numbers[current].focus_set()
 
-scoreLabel1 = ttk.Label(root, text=score1)
-scoreLabel2 = ttk.Label(root, text=score2)
+def clearInput(event):
+    global current
+    if event.keysym == 'F1':
+        current = 1
+    elif event.keysym == 'F2':
+        current = 2
+    elif event.keysym == 'F3':
+        current = 3
+    elif event.keysym == 'F4':
+        current = 4
+    elif event.keysym == 'F5':
+        current = 5
+    elif event.keysym == 'F6':
+        current = 0
+    numbers[current-1].delete(0,END)
+    numbers[current-1].insert(0,0)
+    numbers[current].focus_set()
+
+def changeInput(event):
+    global current
+    #print(event.keysym)
+    if event.keysym == 'F1':
+        current = 0
+    elif event.keysym == 'F2':
+        current = 1
+    elif event.keysym == 'F3':
+        current = 2
+    elif event.keysym == 'F4':
+        current = 3
+    elif event.keysym == 'F5':
+        current = 4
+    elif event.keysym == 'F6':
+        current = 5
+    numbers[current].delete(0,END)
+    numbers[current].focus_set()
+
+s = ttk.Style()
+s.configure('My.TFrame', background = '#808080')
+
+#tFrame = ttk.Frame(root, padding=10, style='My.TFrame')
+#tFrame.config(width=50)
+
+frm = ttk.Frame(root, style='My.TFrame') #padding=50)
+frm.grid_propagate(0)
+frm.pack_propagate(0)
+frm.config(width=405,height=300)
+#frm.grid()
+frm.place(relx=0.5, rely=0.25, anchor=CENTER)
+ttk.Label(frm, text="Player 1", font=("Arial",25), background='#808080').grid(padx=15,column=0,row=0)
+ttk.Label(frm, text="Player 2", font=("Arial",25), background='#808080').grid(padx=15,column=2,row=0)
+
+scoreLabel1 = ttk.Label(frm, text=score1, font=("Arial",25), background='#808080')
+scoreLabel2 = ttk.Label(frm, text=score2, font=("Arial",25), background='#808080')
 scoreLabel1.grid(column=0,row=1)
 scoreLabel2.grid(column=2,row=1)
 
 #creating list of input boxes for score. one box per dart
 numbers = []
-numbers.append(Entry(root, textvariable=num_vars[0], width=2))
-numbers.append(Entry(root, textvariable=num_vars[1], width=2))
-numbers.append(Entry(root, textvariable=num_vars[2], width=2))
-numbers.append(Entry(root, textvariable=num_vars[3], width=2))
-numbers.append(Entry(root, textvariable=num_vars[4], width=2))
-numbers.append(Entry(root, textvariable=num_vars[5], width=2))
+numbers.append(Entry(frm, textvariable=num_vars[0], width=2, font=("Arial",25)))
+numbers.append(Entry(frm, textvariable=num_vars[1], width=2, font=("Arial",25)))
+numbers.append(Entry(frm, textvariable=num_vars[2], width=2, font=("Arial",25)))
+numbers.append(Entry(frm, textvariable=num_vars[3], width=2, font=("Arial",25)))
+numbers.append(Entry(frm, textvariable=num_vars[4], width=2, font=("Arial",25)))
+numbers.append(Entry(frm, textvariable=num_vars[5], width=2, font=("Arial",25)))
 
 #placing input boxes on screen
 #ttk.Label(root).grid(column=0,row=2)
@@ -131,18 +217,20 @@ numbers[3].grid(column=2,row=2, sticky='W')
 numbers[4].grid(column=1,row=2)
 numbers[5].grid(column=2,row=2)
 
-numbers[1].place(x=30,y=38)
-numbers[2].place(x=60,y=38)
+numbers[1].place(in_=numbers[0], relx=0, x=60, y=-2)
+numbers[2].place(in_=numbers[1], relx=0, x=60, y=-2)
+#numbers[1].place(x=30,y=38)
+#numbers[2].place(x=60,y=38)
 
-numbers[4].place(in_=numbers[3], relx=0,x=30, y=-2)
-numbers[5].place(in_=numbers[4], relx=0,x=30, y=-2)
+numbers[4].place(in_=numbers[3], relx=0,x=60, y=-2)
+numbers[5].place(in_=numbers[4], relx=0,x=60, y=-2)
 #numbers[4].place(x=225,y=38)
 #numbers[5].place(x=255,y=38)
 
 #creating and placing buttons to add functionality
-ttk.Button(root, text="Remove points", command = updateScores).grid(pady=5,column=1,row=3)
-ttk.Button(root, text="Reset Points", command = resetScore).grid(pady=5,column=1,row=4)
-ttk.Button(root, text="Quit", command = root.destroy).grid(pady=5,column=1,row=5)
+ttk.Button(frm, text="Remove points", command = updateScores).grid(pady=5,column=1,row=3)
+ttk.Button(frm, text="Reset Points", command = resetScore).grid(pady=5,column=1,row=4)
+ttk.Button(frm, text="Quit", command = root.destroy).grid(pady=5,column=1,row=5)
 
 #when app first launches makes it auto focus on first input box
 numbers[current].focus_set()
@@ -159,6 +247,7 @@ numbers[5].bind("<FocusIn>", lambda event, x=5:updateFocus(event,x))
 numbers[0].bind("<Return>", changeFocus)
 numbers[0].bind("<Shift-Return>", changeFocus2)
 numbers[0].bind("<Control-Return>", changeFocus3)
+#numbers[0].bind("<KeyPress>", clearInput)
 
 numbers[1].bind("<Return>", changeFocus)
 numbers[1].bind("<Shift-Return>", changeFocus2)
@@ -195,6 +284,20 @@ num_vars[2].trace("w", lambda *args: char_limit(numbers[2]))
 num_vars[3].trace("w", lambda *args: char_limit(numbers[3]))
 num_vars[4].trace("w", lambda *args: char_limit(numbers[4]))
 num_vars[5].trace("w", lambda *args: char_limit(numbers[5]))
+
+root.bind("<KeyPress-F1>", clearInput)
+root.bind("<KeyPress-F2>", clearInput)
+root.bind("<KeyPress-F3>", clearInput)
+root.bind("<KeyPress-F4>", clearInput)
+root.bind("<KeyPress-F5>", clearInput)
+root.bind("<KeyPress-F6>", clearInput)
+
+root.bind("<Alt-KeyPress-F1>", changeInput)
+root.bind("<Alt-KeyPress-F2>", changeInput)
+root.bind("<Alt-KeyPress-F3>", changeInput)
+root.bind("<Alt-KeyPress-F4>", changeInput)
+root.bind("<Alt-KeyPress-F5>", changeInput)
+root.bind("<Alt-KeyPress-F6>", changeInput)
 
 root.mainloop()        
         
