@@ -107,41 +107,6 @@ def char_limit(text):
     if len(text.get()) > 2:
         text.delete(2,END)
 
-def clearInputf(event):
-    global current
-    #print(event.keysym)
-    if event.keysym == 'F1':
-        numbers[0].delete(0,END)
-        numbers[0].insert(0,0)
-        current = 1
-        #return
-    elif event.keysym == 'F2':
-        numbers[1].delete(0,END)
-        numbers[1].insert(0,0)
-        current = 2
-        #return
-    elif event.keysym == 'F3':
-        numbers[2].delete(0,END)
-        numbers[2].insert(0,0)
-        current = 3
-        #return
-    elif event.keysym == 'F4':
-        numbers[3].delete(0,END)
-        numbers[3].insert(0,0)
-        current = 4
-        #return
-    elif event.keysym == 'F5':
-        numbers[4].delete(0,END)
-        numbers[4].insert(0,0)
-        current = 5
-        #return
-    elif event.keysym == 'F6':
-        numbers[5].delete(0,END)
-        numbers[5].insert(0,0)
-        current = 0
-        #return
-    numbers[current].focus_set()
-
 def clearInput(event):
     global current
     if event.keysym == 'F1':
@@ -181,9 +146,6 @@ def changeInput(event):
 s = ttk.Style()
 s.configure('My.TFrame', background = '#808080')
 
-#tFrame = ttk.Frame(root, padding=10, style='My.TFrame')
-#tFrame.config(width=50)
-
 frm = ttk.Frame(root, style='My.TFrame') #padding=50)
 frm.grid_propagate(0)
 frm.pack_propagate(0)
@@ -208,7 +170,6 @@ numbers.append(Entry(frm, textvariable=num_vars[4], width=2, font=("Arial",25)))
 numbers.append(Entry(frm, textvariable=num_vars[5], width=2, font=("Arial",25)))
 
 #placing input boxes on screen
-#ttk.Label(root).grid(column=0,row=2)
 numbers[0].grid(column=0,row=2, sticky='W')
 numbers[1].grid(column=1,row=2)
 numbers[2].grid(column=2,row=2)
@@ -219,13 +180,9 @@ numbers[5].grid(column=2,row=2)
 
 numbers[1].place(in_=numbers[0], relx=0, x=60, y=-2)
 numbers[2].place(in_=numbers[1], relx=0, x=60, y=-2)
-#numbers[1].place(x=30,y=38)
-#numbers[2].place(x=60,y=38)
 
 numbers[4].place(in_=numbers[3], relx=0,x=60, y=-2)
 numbers[5].place(in_=numbers[4], relx=0,x=60, y=-2)
-#numbers[4].place(x=225,y=38)
-#numbers[5].place(x=255,y=38)
 
 #creating and placing buttons to add functionality
 ttk.Button(frm, text="Remove points", command = updateScores).grid(pady=5,column=1,row=3)
@@ -243,39 +200,10 @@ numbers[3].bind("<FocusIn>", lambda event, x=3:updateFocus(event,x))
 numbers[4].bind("<FocusIn>", lambda event, x=4:updateFocus(event,x))
 numbers[5].bind("<FocusIn>", lambda event, x=5:updateFocus(event,x))
 
-#can press enter to go to next input box
-numbers[0].bind("<Return>", changeFocus)
-numbers[0].bind("<Shift-Return>", changeFocus2)
-numbers[0].bind("<Control-Return>", changeFocus3)
-#numbers[0].bind("<KeyPress>", clearInput)
-
-numbers[1].bind("<Return>", changeFocus)
-numbers[1].bind("<Shift-Return>", changeFocus2)
-numbers[1].bind("<Control-Return>", changeFocus3)
-
-numbers[2].bind("<Return>", changeFocus)
-numbers[2].bind("<Shift-Return>", changeFocus2)
-numbers[2].bind("<Control-Return>", changeFocus3)
-
-numbers[3].bind("<Return>", changeFocus)
-numbers[3].bind("<Shift-Return>", changeFocus2)
-numbers[3].bind("<Control-Return>", changeFocus3)
-
-numbers[4].bind("<Return>", changeFocus)
-numbers[4].bind("<Shift-Return>", changeFocus2)
-numbers[4].bind("<Control-Return>", changeFocus3)
-
-numbers[5].bind("<Return>", changeFocus)
-numbers[5].bind("<Shift-Return>", changeFocus2)
-numbers[5].bind("<Control-Return>", changeFocus3)
-
-#submit numbers entered in boxes to update the scores
-numbers[0].bind("<Alt-Return>", updateScores)
-numbers[1].bind("<Alt-Return>", updateScores)
-numbers[2].bind("<Alt-Return>", updateScores)
-numbers[3].bind("<Alt-Return>", updateScores)
-numbers[4].bind("<Alt-Return>", updateScores)
-numbers[5].bind("<Alt-Return>", updateScores)
+root.bind("<Return>", changeFocus)#chnage focus to next input box if Return button pressed
+root.bind("<Shift-Return>", changeFocus2)#doubles score in current input box then focues on next one if Shift and Return button pressed
+root.bind("<Control-Return>", changeFocus3)#triples score in current input box then focues on next one if Control and Return button pressed
+root.bind("<Alt-Return>", updateScores)#submits scores in input boxes to update total score if Alt and return are pressed
 
 #limit number of character that can be enter in input box
 num_vars[0].trace("w", lambda *args: char_limit(numbers[0]))
@@ -285,6 +213,7 @@ num_vars[3].trace("w", lambda *args: char_limit(numbers[3]))
 num_vars[4].trace("w", lambda *args: char_limit(numbers[4]))
 num_vars[5].trace("w", lambda *args: char_limit(numbers[5]))
 
+#enter 0 in input boxes 
 root.bind("<KeyPress-F1>", clearInput)
 root.bind("<KeyPress-F2>", clearInput)
 root.bind("<KeyPress-F3>", clearInput)
@@ -292,12 +221,16 @@ root.bind("<KeyPress-F4>", clearInput)
 root.bind("<KeyPress-F5>", clearInput)
 root.bind("<KeyPress-F6>", clearInput)
 
+#jumps to specifed input box to change the value inside
 root.bind("<Alt-KeyPress-F1>", changeInput)
 root.bind("<Alt-KeyPress-F2>", changeInput)
 root.bind("<Alt-KeyPress-F3>", changeInput)
 root.bind("<Alt-KeyPress-F4>", changeInput)
 root.bind("<Alt-KeyPress-F5>", changeInput)
 root.bind("<Alt-KeyPress-F6>", changeInput)
+
+#pressing escape quits the program
+root.bind("<KeyPress-Escape>", lambda *args: root.destroy())
 
 root.mainloop()        
         
