@@ -8,23 +8,33 @@ root = Tk()
 #root.geometry('285x200+700+400')
 root.attributes('-fullscreen',True)
 root.config(bg='#808080')
-global score1, score2, current, total
+global score1, score2, tScore1, tScore2, current, total, tempTF, win
+tempTF = [False,False,False,False,False,False]
+win = False
 total = 501
-score1 = score2 = total
+score1 = score2 = tScore1 = tScore2 = total
 current = 0
 
 num_vars = [StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar()]
 
 #reset both players scores to 360
-def resetScore():
-    global score1, score2, total
+def resetScore(event):
+    global score1, score2, total, win
     score1 = score2 = total
+    numbers[0].delete(0,END)
+    numbers[1].delete(0,END)
+    numbers[2].delete(0,END)
+    numbers[3].delete(0,END)
+    numbers[4].delete(0,END)
+    numbers[5].delete(0,END)
+    numbers[0].focus_set()
+    win = False
     scoreLabel1.config(text=score1)
     scoreLabel2.config(text=score2)
 
 #updates the score
 def updateScores(event=4):
-    global score1,score2,current
+    global score1,score2,tScore1,tScore2,current,tempTF
     try:
         temp1 = int(num_vars[0].get())
     except ValueError:
@@ -69,11 +79,69 @@ def updateScores(event=4):
         score1 = Tscore1
     if Tscore2 >= 0:
         score2 = Tscore2
+    tScore1 = score1
+    tScore2 = score2
+    tempTF = [False,False,False,False,False,False]
     scoreLabel1.config(text=score1)
     scoreLabel2.config(text=score2)
 
+def changeTempScore(temp, double=False):
+    global tScore1,tScore2,tempTF,current
+    if current < 3 and tempTF[current] == False:
+        temp = tScore1 - temp
+        tempTF[current] = True
+        if double == True and temp == 0:
+            scoreLabel1.config(text="Winner!!!")
+            winner()
+        elif temp >= 2:
+            tScore1 = temp 
+            scoreLabel1.config(text=tScore1)
+        else:
+            tScore1 = score1
+            scoreLabel1.config(text=tScore1)
+            numbers[0].delete(0,END)
+            numbers[1].delete(0,END)
+            numbers[2].delete(0,END)
+            current = 2
+            numbers[current].focus_set()
+    if current > 2 and tempTF[current] == False:
+        temp = tScore2 - temp
+        tempTF[current] = True
+        if double == True and temp == 0:
+            scoreLabel2.config(text="Winner!!!")
+        elif temp >= 2:
+            tScore2 = temp
+            scoreLabel2.config(text=tScore2)
+        else:
+            tScore2 = score2
+            scoreLabel1.config(text=tScore2)
+            numbers[3].delete(0,END)
+            numbers[4].delete(0,END)
+            numbers[5].delete(0,END)
+            current = 5
+            numbers[current].focus_set()
+
+def correctTempScore(place):
+    global tScore1,tScore2,tempTF
+    try:
+        temp = int(num_vars[place].get())
+    except ValueError:
+        temp = 0
+    tempTF[place] = False
+    if place == 0 or place == 1 or place == 2:
+        tScore1 = tScore1 + temp
+        scoreLabel1.config(text=tScore1)
+    else:
+        tScore2 = tScore2 + temp
+        scoreLabel2.config(text=tScore2)
+
 def changeFocus(event):
-    global current
+    global current, tScore1, tScore2
+    try:
+        temp = int(num_vars[current].get())
+    except ValueError:
+        temp = 0
+    changeTempScore(temp)
     current = (current+1) % 6
     numbers[current].focus_set()
     
@@ -85,6 +153,7 @@ def changeFocus2(event):
         temp = 0
     numbers[current].delete(0,END)
     numbers[current].insert(0,temp*2)
+    changeTempScore(temp*2, True)
     current = (current+1) % 6
     numbers[current].focus_set()
     
@@ -96,6 +165,7 @@ def changeFocus3(event):
         temp = 0
     numbers[current].delete(0,END)
     numbers[current].insert(0,temp*3)
+    changeTempScore(temp*3)
     current = (current+1) % 6
     numbers[current].focus_set()
     
@@ -108,7 +178,7 @@ def char_limit(text):
         text.delete(2,END)
 
 def clearInput(event):
-    global current
+    global current,tempTF
     if event.keysym == 'F1':
         current = 1
     elif event.keysym == 'F2':
@@ -121,13 +191,13 @@ def clearInput(event):
         current = 5
     elif event.keysym == 'F6':
         current = 0
+    correctTempScore(current-1)
     numbers[current-1].delete(0,END)
     numbers[current-1].insert(0,0)
     numbers[current].focus_set()
 
 def changeInput(event):
     global current
-    #print(event.keysym)
     if event.keysym == 'F1':
         current = 0
     elif event.keysym == 'F2':
@@ -140,17 +210,20 @@ def changeInput(event):
         current = 4
     elif event.keysym == 'F6':
         current = 5
+    correctTempScore(current)
     numbers[current].delete(0,END)
     numbers[current].focus_set()
+
+def winner():
+    root.focus_set()
 
 s = ttk.Style()
 s.configure('My.TFrame', background = '#808080')
 
-frm = ttk.Frame(root, style='My.TFrame') #padding=50)
+frm = ttk.Frame(root, style='My.TFrame')
 frm.grid_propagate(0)
 frm.pack_propagate(0)
 frm.config(width=405,height=300)
-#frm.grid()
 frm.place(relx=0.5, rely=0.25, anchor=CENTER)
 ttk.Label(frm, text="Player 1", font=("Arial",25), background='#808080').grid(padx=15,column=0,row=0)
 ttk.Label(frm, text="Player 2", font=("Arial",25), background='#808080').grid(padx=15,column=2,row=0)
@@ -231,6 +304,8 @@ root.bind("<Alt-KeyPress-F6>", changeInput)
 
 #pressing escape quits the program
 root.bind("<KeyPress-Escape>", lambda *args: root.destroy())
+
+root.bind("<KeyPress-F8>", resetScore)
 
 root.mainloop()        
         
