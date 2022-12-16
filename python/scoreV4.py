@@ -6,7 +6,7 @@ from tkinter import ttk
 
 root = Tk()
 #root.geometry('285x200+700+400')
-root.attributes('-fullscreen',True)
+#root.attributes('-fullscreen',True)
 root.config(bg='#808080')
 global score1, score2, tScore1, tScore2, current, total, tempTF, win
 tempTF = [False,False,False,False,False,False]
