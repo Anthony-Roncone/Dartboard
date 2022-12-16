@@ -6,10 +6,11 @@ from tkinter import ttk
 
 root = Tk()
 #root.geometry('285x200+700+400')
-#root.attributes('-fullscreen',True)
+root.attributes('-fullscreen',True)
 root.config(bg='#808080')
-global score1, score2, tScore1, tScore2, current, total, tempTF, win
-tempTF = [False,False,False,False,False,False]
+global score1, score2, tScore1, tScore2, current, total, tempTF, win, enter
+tempTF = [False,False,False,False,False,False]#used to check if score has already been used to update temp score
+enter = [False,False,False,False,False,False]
 win = False
 total = 501
 score1 = score2 = tScore1 = tScore2 = total
@@ -19,8 +20,8 @@ num_vars = [StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVa
 
 #reset both players scores
 def resetScore(event):
-    global score1, score2, total, win
-    score1 = score2 = total
+    global score1, score2, total, win, current, tScore1, tScore2, tempTF, enter
+    score1 = score2 = tScore1 = tScore2 = total
     numbers[0].delete(0,END)
     numbers[1].delete(0,END)
     numbers[2].delete(0,END)
@@ -29,6 +30,9 @@ def resetScore(event):
     numbers[5].delete(0,END)
     numbers[0].focus_set()
     win = False
+    tempTF = [False,False,False,False,False,False]
+    enter = [False,False,False,False,False,False]
+    current = 0
     scoreLabel1.config(text=score1)
     scoreLabel2.config(text=score2)
 
@@ -64,7 +68,7 @@ def updateScores(event=4):
         temp6 = int(num_vars[5].get())
     except ValueError:
         temp6 = 0
-        
+    
     Tscore1 = score1 - (temp1 + temp2 + temp3)
     Tscore2 = score2 - (temp4 + temp5 + temp6)
     numbers[0].delete(0,END)
@@ -82,14 +86,17 @@ def updateScores(event=4):
     tScore1 = score1
     tScore2 = score2
     tempTF = [False,False,False,False,False,False]
+    enter = [False,False,False,False,False,False]
     scoreLabel1.config(text=score1)
     scoreLabel2.config(text=score2)
 
 def changeTempScore(temp, double=False):
     global tScore1,tScore2,tempTF,current
+    enter[current] = False
     if current < 3 and tempTF[current] == False:
         temp = tScore1 - temp
         tempTF[current] = True
+        enter[current] = True
         if double == True and temp == 0:
             scoreLabel1.config(text="Winner!!!")
             winner()
@@ -107,6 +114,7 @@ def changeTempScore(temp, double=False):
     if current > 2 and tempTF[current] == False:
         temp = tScore2 - temp
         tempTF[current] = True
+        enter[current] = True
         if double == True and temp == 0:
             scoreLabel2.config(text="Winner!!!")
         elif temp >= 2:
@@ -128,12 +136,14 @@ def correctTempScore(place):
     except ValueError:
         temp = 0
     tempTF[place] = False
-    if place == 0 or place == 1 or place == 2:
-        tScore1 = tScore1 + temp
-        scoreLabel1.config(text=tScore1)
-    else:
-        tScore2 = tScore2 + temp
-        scoreLabel2.config(text=tScore2)
+    if enter[place] == True:
+        if place == 0 or place == 1 or place == 2:
+            tScore1 = tScore1 + temp
+            scoreLabel1.config(text=tScore1)
+        else:
+            tScore2 = tScore2 + temp
+            scoreLabel2.config(text=tScore2)
+        enter[place] = False
 
 def changeFocus(event):
     global current, tScore1, tScore2
