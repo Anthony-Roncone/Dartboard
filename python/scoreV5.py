@@ -5,7 +5,7 @@ from tkinter import ttk
 #import ttk
 
 root = Tk()
-root.title("V4")
+root.title("V5")
 #root.geometry('285x200+700+400')
 #root.attributes('-fullscreen',True)
 root.config(bg='#808080')
@@ -129,7 +129,6 @@ def changeTempScore(temp, double=False):
             numbers[5].delete(0,END)
             current = 5
             numbers[current].focus_set()
-    print(tempTF)
 
 def correctTempScore(place):
     global tScore1,tScore2,tempTF
@@ -234,48 +233,39 @@ def winner():
 s = ttk.Style()
 s.configure('My.TFrame', background = '#808080')
 
-frm = ttk.Frame(root, style='My.TFrame')
-frm.grid_propagate(0)
-frm.pack_propagate(0)
-frm.config(width=405,height=300)
-frm.place(relx=0.5, rely=0.25, anchor=CENTER)
-ttk.Label(frm, text="Player 1", font=("Arial",25), background='#808080').grid(padx=15,column=0,row=0)
-ttk.Label(frm, text="Player 2", font=("Arial",25), background='#808080').grid(padx=15,column=2,row=0)
+#frm.place(relx=0.5, rely=0.25, anchor=CENTER)
+Player1 = ttk.Label(root, text="Player 1", font=("Arial",25), background='#808080')
+Player1.place(relx=0.40, rely=0.15, anchor=CENTER)
+Player2 = ttk.Label(root, text="Player 2", font=("Arial",25), background='#808080')
+Player2.place(in_=Player1,relx=0, x=250)
 
-scoreLabel1 = ttk.Label(frm, text=score1, font=("Arial",25), background='#808080')
-scoreLabel2 = ttk.Label(frm, text=score2, font=("Arial",25), background='#808080')
-scoreLabel1.grid(column=0,row=1)
-scoreLabel2.grid(column=2,row=1)
+scoreLabel1 = ttk.Label(root, text=score1, font=("Arial",25), background='#808080')
+scoreLabel1.place(in_=Player1,x = 30, y= 50)
+scoreLabel2 = ttk.Label(root, text=score2, font=("Arial",25), background='#808080')
+scoreLabel2.place(in_=scoreLabel1,relx=0, x=250)
 
 #creating list of input boxes for score. one box per dart
 numbers = []
-numbers.append(Entry(frm, textvariable=num_vars[0], width=2, font=("Arial",25)))
-numbers.append(Entry(frm, textvariable=num_vars[1], width=2, font=("Arial",25)))
-numbers.append(Entry(frm, textvariable=num_vars[2], width=2, font=("Arial",25)))
-numbers.append(Entry(frm, textvariable=num_vars[3], width=2, font=("Arial",25)))
-numbers.append(Entry(frm, textvariable=num_vars[4], width=2, font=("Arial",25)))
-numbers.append(Entry(frm, textvariable=num_vars[5], width=2, font=("Arial",25)))
+numbers.append(Entry(root, textvariable=num_vars[0], width=2, font=("Arial",25)))
+numbers.append(Entry(root, textvariable=num_vars[1], width=2, font=("Arial",25)))
+numbers.append(Entry(root, textvariable=num_vars[2], width=2, font=("Arial",25)))
+numbers.append(Entry(root, textvariable=num_vars[3], width=2, font=("Arial",25)))
+numbers.append(Entry(root, textvariable=num_vars[4], width=2, font=("Arial",25)))
+numbers.append(Entry(root, textvariable=num_vars[5], width=2, font=("Arial",25)))
 
 #placing input boxes on screen
-numbers[0].grid(column=0,row=2, sticky='W')
-numbers[1].grid(column=1,row=2)
-numbers[2].grid(column=2,row=2)
+numbers[0].place(in_= scoreLabel1, x=-53, y=50)
+numbers[1].place(in_=numbers[0], relx=0, x=60, y=0)
+numbers[2].place(in_=numbers[1], relx=0, x=60, y=0)
 
-numbers[3].grid(column=2,row=2, sticky='W')
-numbers[4].grid(column=1,row=2)
-numbers[5].grid(column=2,row=2)
-
-numbers[1].place(in_=numbers[0], relx=0, x=60, y=-1)
-numbers[2].place(in_=numbers[1], relx=0, x=60, y=-1)
-
-numbers[4].place(in_=numbers[3], relx=0,x=60, y=-1)
-numbers[5].place(in_=numbers[4], relx=0,x=60, y=-1)
+numbers[3].place(in_=numbers[2], relx=0, x=120, y=0)
+numbers[4].place(in_=numbers[3], relx=0, x=60, y=0)
+numbers[5].place(in_=numbers[4], relx=0, x=60, y=0)
 
 #creating and placing buttons to add functionality
-ttk.Label(frm, text="",background="#808080",width=10).grid(row=3,column=1)
-#ttk.Button(frm, text="Remove points", command = updateScores).grid(pady=5,column=1,row=3)
-#ttk.Button(frm, text="Reset Points", command = resetScore).grid(pady=5,column=1,row=4)
-#ttk.Button(frm, text="Quit", command = root.destroy).grid(pady=5,column=1,row=5)
+ttk.Button(root, text="Remove points", command = updateScores)
+ttk.Button(root, text="Reset Points", command = resetScore)
+ttk.Button(root, text="Quit", command = root.destroy)
 
 #when app first launches makes it auto focus on first input box
 numbers[current].focus_set()
