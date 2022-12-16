@@ -17,7 +17,7 @@ current = 0
 
 num_vars = [StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar()]
 
-#reset both players scores to 360
+#reset both players scores
 def resetScore(event):
     global score1, score2, total, win
     score1 = score2 = total
@@ -185,12 +185,13 @@ def clearInput(event):
         current = 2
     elif event.keysym == 'F3':
         current = 3
-    elif event.keysym == 'F4':
-        current = 4
     elif event.keysym == 'F5':
-        current = 5
+        current = 4
     elif event.keysym == 'F6':
+        current = 5
+    elif event.keysym == 'F7':
         current = 0
+    #check to see if score has been entered
     correctTempScore(current-1)
     numbers[current-1].delete(0,END)
     numbers[current-1].insert(0,0)
@@ -204,12 +205,13 @@ def changeInput(event):
         current = 1
     elif event.keysym == 'F3':
         current = 2
-    elif event.keysym == 'F4':
-        current = 3
     elif event.keysym == 'F5':
-        current = 4
+        current = 3
     elif event.keysym == 'F6':
+        current = 4
+    elif event.keysym == 'F7':
         current = 5
+    #check to see if score has been entered
     correctTempScore(current)
     numbers[current].delete(0,END)
     numbers[current].focus_set()
@@ -290,17 +292,17 @@ num_vars[5].trace("w", lambda *args: char_limit(numbers[5]))
 root.bind("<KeyPress-F1>", clearInput)
 root.bind("<KeyPress-F2>", clearInput)
 root.bind("<KeyPress-F3>", clearInput)
-root.bind("<KeyPress-F4>", clearInput)
 root.bind("<KeyPress-F5>", clearInput)
 root.bind("<KeyPress-F6>", clearInput)
+root.bind("<KeyPress-F7>", clearInput)
 
 #jumps to specifed input box to change the value inside
 root.bind("<Alt-KeyPress-F1>", changeInput)
 root.bind("<Alt-KeyPress-F2>", changeInput)
 root.bind("<Alt-KeyPress-F3>", changeInput)
-root.bind("<Alt-KeyPress-F4>", changeInput)
 root.bind("<Alt-KeyPress-F5>", changeInput)
 root.bind("<Alt-KeyPress-F6>", changeInput)
+root.bind("<Alt-KeyPress-F7>", changeInput)
 
 #pressing escape quits the program
 root.bind("<KeyPress-Escape>", lambda *args: root.destroy())
