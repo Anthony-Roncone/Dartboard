@@ -1,59 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            div {
-                font-size: 2.125em;
-            }
-           .center {
-            text-align: center;
-            padding: 5%;
-           } 
-           .left{
-            text-align: left;
-            padding-right: 10%;
-           }
-           .right{
-            text-align: right;
-            padding-left: 10%;
-           }
-           .red{
-            color: red;
-           }
-           .purple{
-            color: purple;
-           }
-        </style>
-        <title>Dartboard</title>
+        <link rel="stylesheet" href="style.css">
+        <title>Main Menu</title>
     </head>
 
     <body>
-        <center>
-            <div>
-                <span class="left red">
-                    Player 1
-                </span>
-                <span class="right purple">
-                    Player 2
-                </span>
-                <br>
-                <span class="left red">360</span>
-                <span class="right purple">360</span>
-                
-                <form>
-                    <span class="center">
-                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
-                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
-                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
-                    </span>
-
-                    <span class="center">
-                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
-                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
-                        <input type="text" maxlength="2" size="2" style="height: 1em; font-size: 20pt;">
-                    </span>
-                </form>
-            </div>    
-        </center>
+        <nav>
+            <h1>Choose game mode</h1>
+            <a onclick="fullscreen()" href="/games/501x.html" >501</a>
+            <a href="/games/cricket.html">Cricket</a>
+        </nav>
     </body>
 </html>

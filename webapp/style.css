@@ -1,0 +1,51 @@
+body {
+    background-color: #36454F;
+    color: #778792;
+}
+
+a{
+    text-decoration: none;
+}
+
+nav a{
+    border: 2px solid black;
+    background-color: red;
+    color: black;
+    padding: 5px;
+}
+
+.test{
+    display: inline;
+    width: 100%;
+    /*border: 2px solid black;*/
+    text-align: center;
+}
+
+.player1,.player2 {
+    display: inline;
+    width: 100%;
+    padding: 10px;
+    /*border: 2px solid purple;*/
+    text-align: center;
+}
+
+.player1{
+    color: purple;
+}
+
+.player2 {
+    color: red;
+}
+
+.divider{
+    width: 10%;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+   
+    padding: 10px;
+    /*border: 2px solid black;*/
+}

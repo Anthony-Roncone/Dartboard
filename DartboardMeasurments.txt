@@ -1,0 +1,7 @@
+black			Tan			both
+
+tip = 4.25		tip = 6.3		cutout = 10.6
+
+top = 53		top = 53		rod/hole = 6.6
+
+length = 153		length = 153		distance between cutout = 52.7
