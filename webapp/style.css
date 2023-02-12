@@ -1,10 +1,15 @@
 body {
     background-color: #36454F;
     color: #778792;
+    /*
+    for testing
+    border: 2px solid black;
+    */
 }
 
 a{
     text-decoration: none;
+    color: #778792;
 }
 
 nav a{
@@ -27,6 +32,13 @@ nav a{
     padding: 10px;
     /*border: 2px solid purple;*/
     text-align: center;
+    font-size: 3em;
+}
+
+.player1 input[type="text"],.player2 input[type="text"]
+{
+    width: 5em;
+    font-size: 0.5em;
 }
 
 .player1{
@@ -39,6 +51,8 @@ nav a{
 
 .divider{
     width: 10%;
+    text-align: center;
+    border: 2px solid white;
 }
 
 .center{
@@ -48,4 +62,21 @@ nav a{
    
     padding: 10px;
     /*border: 2px solid black;*/
+}
+
+.score{
+    width: 100%;
+    text-align: center;
+    /*border-bottom: 2px solid black;*/
+}
+
+/*
+.score label{
+    width: 2em;
+    border: 2px solid red;
+}*/
+
+.board{
+    
+    border: 2p dashed purple;
 }
